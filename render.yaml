@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: flask-llm-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: SECRET_KEY
+        value: your_secret_key
+      - key: MAIL_USERNAME
+        value: snitdan17@gmail.com
+      - key: MAIL_PASSWORD
+        value: pfpaqwnisxjhnatz
+      - key: MAIL_SENDER
+        value: snitdan17@gmail.com
+      - key: DB_HOST
+        value: your-db-host-if-remote
+      - key: DB_USER
+        value: root
+      - key: DB_PASSWORD
+        value: snit
+      - key: DB_NAME
+        value: employee_performance
