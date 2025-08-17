@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization - ProScope</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">ProScope</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') if current_user.is_authenticated else url_for('login') }}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/visualization">Visualization</a>
+                        <a class="dropdown-item" href="/prediction">Prediction</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    {% if session.get('user_id') %}
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    {% else %}
+                        <a class="nav-link" href="/login">Log In</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section text-center">
+        <h1 class="hero-heading">Employee Performance Prediction</h1>
+        <p class="lead-text">Leverage AI-powered predictive models to forecast employee performance and optimize decision-making strategies.</p>
+    </div>
+
+
+    
+    <!-- Existing Employee Search Section -->
+    <div class="container form-section mb-5">
+        <div class="info-card mb-4">
+            <div class="card-body">
+                <h4 class="text-primary mb-3">Existing Employee Analysis - Performance Insights for Current Team Members</h4>
+                <p class="text-muted">
+                    If you are looking for performance insights on a current employee, simply enter their Employee ID in the search field. The system will retrieve their details and provide an AI-driven performance prediction based on historical data.
+                    <small class="text-info">System analyzes 12+ months of employment patterns and project outcomes.</small>
+                </p>
+            </div>
+        </div>
+    
+        <form method="post" action="/prediction">
+
+        <form method="post" action="/prediction">
+            <div class="form-group">
+                <label for="employee_id">Enter Employee ID:</label>
+                <input type="text" name="employee_id" class="form-control" required placeholder="Employee ID">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <br>
+        {% if employee %}
+        <div class="mt-4">
+            <h4>Employee Performance Details:</h4>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>ID:</strong> {{ employee.Employee_ID }}</p>
+                    <p><strong>Department:</strong> {{ employee.Department }}</p>
+                    <p><strong>Job Title:</strong> {{ employee.Job_Title }}</p>
+                </div>
+            </div>
+
+            <br>
+        
+            <h4>Performance Prediction</h4>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Performance Score:</strong> {{ score }}</p>
+                    <p><strong>Status:</strong> {{ status }}</p>
+                    <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+ 
+   
+    
+    <!-- New Employee Prediction Section -->
+    <div class="container form-section">
+        <div class="info-card mb-4">
+            <div class="card-body">
+                <h4 class="text-primary mb-3">New Hire Assessment - Predict Future Performance Potential</h4>
+                <p class="text-muted">
+                    If you want to assess the potential performance of a new hire, fill out the provided form with key attributes such as salary, department, experience, and work habits. The system will analyze these factors and generate a performance prediction to aid in decision-making.
+                    <small class="text-info">Evaluation based on 15 success factors benchmarked against top performers.</small>
+                </p>
+            </div>
+        </div>
+
+        <br>
+        <form method="post" action="/prediction">
+            <!-- First Row -->
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="monthly_salary">Monthly Salary:</label>
+                        <input type="number" name="monthly_salary" class="form-control" required placeholder="Enter Monthly Salary">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="job_title">Job Title:</label>
+                        <select name="job_title" class="form-control" required>
+                            <option value="Specialist">Specialist</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Analyst">Analyst</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Technician">Technician</option>
+                            <option value="Engineer">Engineer</option>
+                            <option value="Consultant">Consultant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="department">Department:</label>
+                        <select name="department" class="form-control" required>
+                            <option value="IT">IT</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Customer Support">Customer Support</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="HR">HR</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Legal">Legal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sick_days">Sick Days:</label>
+                        <input type="number" name="sick_days" class="form-control" required placeholder="Enter Sick Days">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row -->
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="employee_satisfaction_score">Employee Satisfaction Score:</label>
+                        <input type="number" step="0.1" name="employee_satisfaction_score" class="form-control" required placeholder="Enter Satisfaction Score">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="promotions">Promotions:</label>
+                        <select name="promotions" class="form-control" required>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="training_hours">Training Hours:</label>
+                        <input type="number" name="training_hours" class="form-control" required placeholder="Enter Training Hours">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="team_size">Team Size:</label>
+                        <input type="number" name="team_size" class="form-control" required placeholder="Enter Team Size">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row -->
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="remote_work_frequency">Remote Work Frequency (%):</label>
+                        <input type="number" name="remote_work_frequency" class="form-control" required placeholder="Enter Remote Work Frequency">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="projects_handled">Projects Handled:</label>
+                        <input type="number" name="projects_handled" class="form-control" required placeholder="Enter Projects Handled">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="overtime_hours">Overtime Hours:</label>
+                        <input type="number" name="overtime_hours" class="form-control" required placeholder="Enter Overtime Hours">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="work_hours_per_week">Work Hours Per Week:</label>
+                        <input type="number" name="work_hours_per_week" class="form-control" required placeholder="Enter Work Hours Per Week">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fourth Row -->
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="years_at_company">Years at Company:</label>
+                        <input type="number" name="years_at_company" class="form-control" required placeholder="Enter Years at Company">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select name="gender" class="form-control" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="education">Education Level:</label>
+                        <select name="education" class="form-control" required>
+                            <option value="High School">High School</option>
+                            <option value="Bachelors">Bachelors</option>
+                            <option value="Masters">Masters</option>
+                            <option value="PhD">PhD</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Display the prediction if available -->
+        {% if prediction %}
+        <div class="mt-4">
+            <h4>Performance Prediction</h4>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Performance Score:</strong> {{ prediction }}</p>
+                    <p><strong>Status:</strong> {{ status }}</p>
+                    <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center">
+        <p>&copy; 2025 ProScope. All rights reserved. | AI-powered tool designed to empower teams and elevate productivity.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Floating Chatbot Icon -->
+        <div id="chatbot-icon" onclick="toggleChat()">💬</div>
+
+        <!-- Chatbot Widget -->
+        <div id="chatbot-container" class="d-flex">
+            <div id="chat-header"><strong>ProScope Assistant</strong></div>
+            <div id="chat-box"></div>
+            <div id="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Ask about employees...">
+                <button id="chat-send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function toggleChat() {
+                const container = document.getElementById('chatbot-container');
+                container.style.display = (container.style.display === 'flex') ? 'none' : 'flex';
+            }
+    
+            function sendMessage() {
+                const input = document.getElementById('chat-input');
+                const message = input.value.trim();
+                if (!message) return;
+    
+                const chatBox = document.getElementById('chat-box');
+    
+                // Display user message
+                const userMsg = document.createElement('div');
+                userMsg.innerHTML = `<strong>You:</strong> ${message}`;
+                chatBox.appendChild(userMsg);
+    
+                // Scroll to bottom
+                chatBox.scrollTop = chatBox.scrollHeight;
+    
+                // Send message to backend
+                fetch('/chatbot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const botMsg = document.createElement('div');
+                    botMsg.innerHTML = `<strong>Bot:</strong> ${data.reply}`;
+                    chatBox.appendChild(botMsg);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                })
+
+
+                .catch(() => {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.innerHTML = `<strong>Bot:</strong> Sorry, something went wrong.`;
+                    chatBox.appendChild(errorMsg);
+                });
+    
+                input.value = '';
+            }
+    
+            // Allow pressing Enter to send message
+            document.getElementById('chat-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        </script>
+</body>
+</html>

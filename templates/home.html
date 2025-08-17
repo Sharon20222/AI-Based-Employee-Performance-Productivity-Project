@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - ProScope</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">ProScope</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') if current_user.is_authenticated else url_for('login') }}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/visualization">Visualization</a>
+                        <a class="dropdown-item" href="/prediction">Prediction</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    {% if session.get('user_id') %}
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    {% else %}
+                        <a class="nav-link" href="/login">Log In</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section text-center">
+        <h1 class="hero-heading">Welcome to ProScope</h1>
+        <p class="lead-text">An AI-based, comprehensive Employee Performance and Productivity Management System designed to streamline workflows, enhance team collaboration, and drive business growth.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Visualization</h5>
+                        <p class="card-text">Visualize performance trends with AI-driven interactive charts and insights.</p>
+                        <a href="/visualization" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Prediction</h5>
+                        <p class="card-text">Use AI to predict future employee performance and productivity trends.</p>
+                        <a href="/prediction" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="width: 1000px;">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Performance Tracking</h5>
+                        <p class="card-text">
+                            Track employee performance instantly and email alerts for low performers.                        </p>
+                        <a href="/visualization" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- FAQ Section -->
+    <div class="container faq-section my-5" style="padding: 40px 15px;">
+        <h3 class="text-center mb-4" style="font-weight: 400; color: black;">Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion" style="max-width: 800px; margin: 0 auto;">
+            <div class="card" style="border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+                <div class="card-header" id="faqHeadingOne" style="background-color: #f7f7f7;">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#faq1" 
+                            style="text-decoration: none; font-weight: 600; color: #007bff;">
+                            What is ProScope used for?
+                        </button>
+                    </h5>
+                </div>
+                <div id="faq1" class="collapse" data-parent="#faqAccordion" style="padding: 15px;">
+                    <div class="card-body" style="color: #444;">
+                        ProScope is used to evaluate, monitor, and enhance employee performance through AI-based tools, visualizations, and predictive analytics.
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+                <div class="card-header" id="faqHeadingTwo" style="background-color: #f7f7f7;">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#faq2" 
+                            style="text-decoration: none; font-weight: 600; color: #007bff;">
+                            Is ProScope suitable for small businesses?
+                        </button>
+                    </h5>
+                </div>
+                <div id="faq2" class="collapse" data-parent="#faqAccordion" style="padding: 15px;">
+                    <div class="card-body" style="color: #444;">
+                        Yes. ProScope is scalable and can be customized to suit the needs of both small teams and large enterprises.
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+                <div class="card-header" id="faqHeadingThree" style="background-color: #f7f7f7;">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#faq3" 
+                            style="text-decoration: none; font-weight: 600; color: #007bff;">
+                            Do I need technical skills to use ProScope?
+                        </button>
+                    </h5>
+                </div>
+                <div id="faq3" class="collapse" data-parent="#faqAccordion" style="padding: 15px;">
+                    <div class="card-body" style="color: #444;">
+                        Not at all. ProScope offers a user-friendly interface designed for HR professionals, team leads, and executives without requiring technical expertise.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="footer text-center">
+        <p>&copy; 2025 ProScope. All rights reserved. | AI-powered tool designed to empower teams and elevate productivity.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

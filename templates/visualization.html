@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization - ProScope</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">ProScope</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') if current_user.is_authenticated else url_for('login') }}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/visualization">Visualization</a>
+                        <a class="dropdown-item" href="/prediction">Prediction</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    {% if session.get('user_id') %}
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    {% else %}
+                        <a class="nav-link" href="/login">Log In</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section text-center py-5">
+        <h1 class="hero-heading text-white">Employee Performance Visualization</h1>
+        <p class="lead-text text-white">Track and analyze employee performance trends with interactive AI-driven charts to make data-backed decisions and optimize productivity.</p>
+    </div>
+
+    <!-- Visualization Page Content -->
+    <div class="container mt-4">
+        <!-- Row for Charts -->
+        <div class="row">
+            <!-- Performance Score vs Monthly Salary -->
+            <div class="col-md-6">
+                <div class="chart-container" data-toggle="modal" data-target="#chartModal" data-chart="scatter">
+                    <h4>Performance Score vs Monthly Salary</h4>
+                    <p>This chart shows how the performance score correlates with the employee's monthly salary. It helps HR to analyze if higher salaries lead to higher performance scores and whether compensation is aligned with performance.</p>
+                    <img src="data:image/png;base64,{{ scatter_plot_url }}" alt="Performance Score vs Salary" class="img-fluid">
+                </div>
+            </div>
+
+            <!-- Projects Handled by Age -->
+            <div class="col-md-6">
+                <div class="chart-container" data-toggle="modal" data-target="#chartModal" data-chart="count">
+                    <h4>Projects Handled by Age</h4>
+                    <p>This bar chart visualizes the number of projects handled by employees in different age groups. It provides HR with insights into how project handling is distributed across different age categories, which can help in workforce planning and project allocation.</p>
+                    <img src="data:image/png;base64,{{ count_plot_url }}" alt="Projects Handled by Age" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Row for More Charts -->
+        <div class="row">
+            <!-- Department Distribution Pie Chart -->
+            <div class="col-md-6">
+                <div class="chart-container" data-toggle="modal" data-target="#chartModal" data-chart="pie">
+                    <h4>Employee Distribution by Department</h4>
+                    <p>This pie chart shows the distribution of employees across various departments. It provides HR with a clear view of the size of each department and helps to identify areas where there may be a concentration or need for more resources.</p>
+                    <img src="data:image/png;base64,{{ pie_chart_url }}" alt="Employee Distribution by Department" class="img-fluid">
+                </div>
+            </div>
+
+            <!-- Years at the Company vs Performance Score -->
+            <!-- Line Chart for Performance Score vs Years at the Company -->
+            <div class="col-md-6">
+                <div class="chart-container" data-toggle="modal" data-target="#chartModal" data-chart="line">
+                    <h4>Performance Score vs Years at the Company</h4>
+                    <p>This line chart shows the relationship between performance scores and the number of years employees have spent at the company. It helps HR analyze whether longer tenure correlates with higher or lower performance scores.</p>
+                    <img src="data:image/png;base64,{{ line_chart_url }}" alt="Performance Score vs Years at the Company" class="img-fluid">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal to Display Chart in Larger View -->
+    <div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="chartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chartModalLabel">Chart Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="chartModalImage" src="" alt="Chart" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center py-4 bg-dark text-white">
+        <p>&copy; 2025 ProScope. All rights reserved. | AI-powered tool designed to empower teams and elevate productivity.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      
+
+</body>
+</html>
